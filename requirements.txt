@@ -1,0 +1,22 @@
+Flask
+
+clues_across = {}
+    print('across:')
+    for clue in numbering.across:
+        clues_across['clue_number'] = clue['num']
+        clues_across['clue'] = clue['clue']
+        clues_across['answer'] = ''.join(
+            p.solution[clue['cell'] + i]
+            for i in range(clue['len']))
+        print(clues_across)
+
+    clues_down = {}
+
+    print('down:')
+    for clue in numbering.down:
+        clues_down['clue_number'] = clue['num']
+        clues_down['clue'] = clue['clue']
+        clues_down['answer'] = ''.join(
+            p.solution[clue['cell'] + i * numbering.width]
+            for i in range(clue['len']))
+        print(clues_down)
