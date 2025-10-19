@@ -1,6 +1,9 @@
-/* td */
 td .content {
     aspect-ratio: 1 / 1;
+}
+
+.card {
+    width: 50vw;
 }
 
 .clue_number {
@@ -9,65 +12,4 @@ td .content {
     z-index: 2;
     color: black;
 }
-
-/* clues */
-    /* desktop */
-    @media (min-width:769px) {
-        .clues {
-        display: inline-block;
-        vertical-align: top;
-    }
-    }
-    
-    /* mobile */
-    @media (max-width: 768px) {
-        .clues {
-        display: inline-block;
-        vertical-align: top;
-    }
-    }
-
-
-/* input */
-    /* desktop */
-    @media (min-width: 769px) {
-        .custom {
-        caret-color: transparent;
-        height: 6vw;
-        width: 6vw;
-        font-size: 5.5vw;
-        text-align: center;
-        text-transform: uppercase;
-        z-index: 1;
-    }
-    }
-    
-    /* mobile */
-    @media (max-width: 768px) {
-        .custom {
-        caret-color: transparent;
-        height: 15vw;
-        width: 15vw;
-        font-size: 8vw;
-        text-align: center;
-        text-transform: uppercase;
-        z-index: 1;
-    }
-    }
-
-
-/* grid */
-    /* desktop */
-    @media (mix-width: 769px) {
-        .grid {
-        display: inline-block;
-    }
-    }
-
-    /* mobile */
-    @media (max-width: 768px) {
-        .grid {
-            display:block;
-        }
-    }
 

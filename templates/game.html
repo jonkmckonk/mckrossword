@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <form id="crossword" class="grid" action="/game" method="post">
+        <table>
+            {% for row in range(dimensions['height']) %}
+            <tr>
+                {% for col in range(dimensions['width']) %}
+                <td>
+                    <div class="clue_number">
+                        <span class="cell_clue"></span>
+                    </div>
+                    <div class="content">
+                        <input onkeydown="return /[a-z]/i.test(event.key)" type="text" class="custom" maxlength="1" name="cell_{{ row }}_{{ col }}" id="cell_{{ row }}_{{ col }}">
+                    </div>
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <div style="text-align: center;">
+            <button style="text-align: center;" class="btn btn-primary" type="submit">
+                Submit
+                <div id="counter">
+                    0
+                </div>
+            </button>
+        </div>
+        <div>
+            <input type="hidden" id="elapsed" name="elapsed" value="0">
+        </div>
+    </form>    
+
+<div class="clues">
+    <!-- Across Clues -->
+    <div class="card">
+        <div class="card-header">
+            <b>Across</b>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for clue in clues_across %}
+                <li class="list-group-item">
+                    <b>{{ clue['clue_id'] }}</b>: {{ clue['clue'] }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Down Clues -->
+    <div class="card">
+        <div class="card-header">
+            <b>Down</b>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for clue in clues_down %}
+                <li class="list-group-item">
+                    <b>{{ clue['clue_id'] }}</b>: {{ clue['clue'] }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+
+    <script>
+        /* populate black cells based on solution */
+        const string = '{{ solution }}';
+        const cells = document.querySelectorAll('#crossword input');
+
+        cells.forEach((cell, index) => {
+            const expectedChar = string[index];
+            const userChar = cell.value.toUpperCase();
+
+            if (expectedChar === '.') {
+            cell.value = '.'
+            cell.readOnly = true;
+            cell.style.color = 'black';
+            cell.style.backgroundColor = 'black';
+            }
+        });
+    
+        /* autofocus */
+        cells[0].focus();
+
+        cells.forEach((cell, i) => {
+            cell.addEventListener('input', (e) => {
+                if (e.target.value && i < cells.length - 1) {
+                    cells[i + 1].focus();
+                }
+            });
+
+            cell.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && i > 0) {
+                    cells[i - 1].focus();
+                }
+                else if (e.key == 'Backspace' && e.target.value) {
+                    e.target.value = '';
+                    cells[i].focus();
+                }
+            })
+
+        });
+            
+        var start = document.getElementById('cell_0_0');
+        start.focus();
+
+
+
+        /* clue numbering script created by ChatGPT */
+        document.addEventListener('DOMContentLoaded', () => {
+            const solution = '{{ solution }}'; 
+            const width = parseInt('{{ dimensions["width"] }}');
+            const height = parseInt('{{ dimensions["height"] }}');
+
+            const cells = document.querySelectorAll('#crossword input');
+            const clueSpans = document.querySelectorAll('.cell_clue');
+
+            // Convert 1D solution string to 2D array for easier processing
+            const grid = [];
+            for (let r = 0; r < height; r++) {
+                const row = [];
+                for (let c = 0; c < width; c++) {
+                    row.push(solution[r * width + c]);
+                }
+                grid.push(row);
+            }
+
+            let clueNumber = 1;
+
+            for (let r = 0; r < height; r++) {
+                for (let c = 0; c < width; c++) {
+                    const currentChar = grid[r][c];
+                    if (currentChar === '.') continue;
+
+                    const isStartOfAcross = (c === 0 || grid[r][c - 1] === '.') && (c + 1 < width && grid[r][c + 1] !== '.');
+                    const isStartOfDown = (r === 0 || grid[r - 1][c] === '.') && (r + 1 < height && grid[r + 1][c] !== '.');
+
+                    if (isStartOfAcross || isStartOfDown) {
+                        const index = r * width + c;
+                        const clueSpan = clueSpans[index];
+                        if (clueSpan) {
+                            clueSpan.innerText = clueNumber;
+                        }
+                        clueNumber++;
+                    }
+                }
+            }
+        });
+
+
+        
+        /* Timer */
+        let seconds = 0;
+        const counter = document.getElementById("counter");
+        const elapsedInput = document.getElementById("elapsed");
+
+        setInterval(() => {
+            seconds++;
+            counter.textContent = seconds;
+            elapsedInput.value = seconds;
+        }, 1000);
+    </script>
+    
+{% endblock %}

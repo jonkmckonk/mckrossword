@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+        .clues {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .custom {
+            caret-color: transparent;
+            height: 15vw;
+            width: 15vw;
+            font-size: 8vw;
+            text-align: center;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+        
+        .grid {
+            display:block;
+        }
+    }
+
+
+

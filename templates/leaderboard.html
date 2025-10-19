@@ -1,0 +1,27 @@
+<!--Check if row for the puzzle on the website is empty-->
+<!--If empty, insert-->
+<!--Else, you don't get a new leaderboard entry-->
+{% extends "layout.html" %}
+
+{% block title %}
+    Leaderboard
+{% endblock %}
+
+{% block main %}
+    <table class="table">
+        <tr>
+            <th>User</th>
+            <th>Attempts</th>
+            <th>Solves</th>
+            <th>Sub-1-min Solves</th>
+        </tr>
+        {% for username, stats in leaderboard.items() %}
+        <tr>
+            <td>{{ username }}</td>
+            <td>{{ stats.total_puzzles }}</td>
+            <td>{{ stats.total_solved }}</td>
+            <td>{{ stats.total_sub1 }}</td>
+        </tr>
+        {% endfor %}  
+    </table>
+{% endblock %}

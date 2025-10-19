@@ -1,0 +1,21 @@
+/* desktop */
+@media (min-width:769px) {
+    .clues {
+    display: inline-block;
+    vertical-align: top;
+    }
+
+    .custom {
+        caret-color: transparent;
+        height: 6vw;
+        width: 6vw;
+        font-size: 5.5vw;
+        text-align: center;
+        text-transform: uppercase;
+        z-index: 1;
+    }
+
+    .grid {
+        display: inline-block;
+    }
+}
